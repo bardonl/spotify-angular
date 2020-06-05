@@ -1,0 +1,24 @@
+<div class="spotifyOverview">
+  <h1>Welcome {{data.display_name}}</h1>
+
+  <div class="card-container">
+    <div class="card-container-header">
+      <h3>What would you like to do?</h3>
+    </div>
+    <div class="card-boxes">
+      <div (click)="createPlaylist()"  class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
+        <div class="card-header">Create a playlist</div>
+        <div class="card-body">
+          <p class="card-text">Create a custom playlist, search tracks and add them to your list, choose your title and description.</p>
+        </div>
+      </div>
+      <div (click)="getPlaylists()"  class="card text-white bg-secondary mb-3" style="max-width: 20rem;">
+        <div class="card-header">Compare playlists</div>
+        <div class="card-body">
+          <p class="card-text">Compare your playlist to others. See how much your playlist compares to others.</p>
+        </div>
+      </div>
+    </div>
+</div>
+</div>
+

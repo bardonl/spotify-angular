@@ -1,0 +1,23 @@
+.card-boxes {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-around;
+}
+
+.spotifyOverview{
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.card-container{
+  min-width: 40%;
+}
+
+.card-container-header h3{
+  text-align: center;
+}
+
+.card:hover{
+  cursor: pointer;
+}

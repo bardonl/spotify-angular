@@ -1,0 +1,60 @@
+.player{
+  display: none;
+  margin-top: 10px;
+}
+
+.container{
+  width: 100%;
+}
+
+.content-container{
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+}
+
+.track-info{
+  display: flex;
+  flex-direction: row;
+}
+
+.track-container p {
+  text-align: center;
+}
+
+.track-container:hover{
+
+  cursor: pointer;
+}
+
+.track-container:hover p {
+  color: powderblue;
+}
+
+.add{
+  font-size: 25px;
+  text-align: center;
+  padding-right: 10px;
+}
+
+.add:hover{
+  color: greenyellow;
+  cursor: pointer;
+}
+
+.remove{
+  font-size: 25px;
+  text-align: center;
+  padding-right: 10px;
+}
+.selected-track-container:hover{
+
+  cursor: default;
+}
+.remove:hover{
+  color: red;
+  cursor: pointer;
+}
+
+

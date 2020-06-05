@@ -1,0 +1,61 @@
+<div class="container">
+  <h2>Create your playlist!</h2>
+  <div class="content-container">
+    <div class="search-container">
+      <div class="search-input form-group row">
+        <label for="search-box">Search for a track</label>
+        <input #searchBox id="search-box" (input)="search(searchBox.value)" class="form-control">
+      </div>
+
+      <div *ngIf="searchedTracks" class="search-output list-group">
+        <div *ngFor="let track of searchedTracks.tracks.items" id="{{track.id}}" class="track-container list-group-item">
+          <div class="track-info">
+            <i class="far fa-plus-square add" (click)="addTrack(track)"></i>
+            <p (click)="showPlayer(track.uri)" onclick="$('#' + this.parentNode.parentNode.id + ' > .player').toggle()">{{track.name}} - {{track.artists[0].name}}</p>
+          </div>
+
+
+
+          <iframe [src]="track.embed_url | safe" width="300" height="80"
+                  frameborder="0" allowtransparency="true" allow="encrypted-media" class="player"></iframe>
+        </div>
+      </div>
+    </div>
+
+    <div class="output-container">
+      <div class="playlist-name form-group row">
+        <label for="playlistName">Give your playlist a name!</label>
+        <input [(ngModel)]="playlistName" name="playlistName" id="playlistName" type="text" class="form-control">
+      </div>
+
+      <div class="playlistDescription form-group row">
+        <label for="playlistDescription">What about a description?</label>
+        <input [(ngModel)]="playlistDescription" name="playlistDescription" id="playlistDescription" type="text" class="form-control">
+      </div>
+
+      <div  *ngIf="selectedTracks" class="selected-tracks list-group">
+        <div *ngFor="let selectedTrack of selectedTracks" id="{{selectedTrack.id}}" class="selected-track-container list-group-item">
+          <div class="track-info">
+            <i class="far fa-minus-square remove" (click)="removeTrack(selectedTrack)"></i>
+            <p> {{selectedTrack.name}} - {{selectedTrack.artists[0].name}}</p>
+          </div>
+        </div>
+      </div>
+
+      <button class="btn btn-success" (click)="save(playlistName, selectedTracks, playlistDescription)">Save playlist</button>
+    </div>
+  </div>
+
+  <button class="btn btn-success" (click)="goBack()">go back</button>
+</div>
+
+<script>
+  $(document).ready(function(){
+    function showPlayer(element){
+      $('#' + element + ' > .player').toggle();
+    }
+  });
+
+
+</script>
+
