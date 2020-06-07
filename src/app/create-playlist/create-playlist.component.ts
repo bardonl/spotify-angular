@@ -24,10 +24,10 @@ export class CreatePlaylistComponent implements OnInit {
   private selectedTracks = [];
   private playlistName = '';
   private playlistDescription = '';
+  private trackEmbed = '';
   constructor(
     private location: Location,
-    private spotify: SpotifyService,
-    private sanitizer: DomSanitizer) { }
+    private spotify: SpotifyService) { }
 
   ngOnInit(): void {
   }
@@ -37,11 +37,6 @@ export class CreatePlaylistComponent implements OnInit {
       this.searchedTracks = searchedTracks;
 
       console.log(this.searchedTracks);
-
-      for ( let i = 0; i < searchedTracks.tracks.items.length; i++){
-        let urlParts = searchedTracks.tracks.items[i].uri.split(':');
-        searchedTracks.tracks.items[i]['embed_url'] = 'https://open.spotify.com/embed/' + urlParts[1] + '/' + urlParts[2];
-      }
     });
   }
 
@@ -59,7 +54,8 @@ export class CreatePlaylistComponent implements OnInit {
 
   showPlayer(trackUri)
   {
-
+    const urlParts = trackUri.split(':');
+    this.trackEmbed = 'https://open.spotify.com/embed/' + urlParts[1] + '/' + urlParts[2];
   }
 
   goBack(): void {
