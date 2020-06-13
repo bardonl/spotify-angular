@@ -28,7 +28,14 @@ export class ShowPlaylistsComponent implements OnInit {
     if (!this.accessToken){
       this.router.navigate(['']);
     } else {
-      this.spotify.getPlaylists().subscribe(userPlaylistData => this.userPlaylistData = userPlaylistData);
+      this.spotify.getPlaylists().subscribe(userPlaylistData => {
+        this.userPlaylistData = userPlaylistData;
+        if (this.userPlaylistData.length === 0){
+          this.cookie.delete('access_token');
+          this.cookie.delete('refresh_token');
+          this.router.navigate(['']);
+        }
+      });
     }
   }
 

@@ -40,14 +40,21 @@ export class CreatePlaylistComponent implements OnInit {
     if (!this.accessToken){
       this.router.navigate(['']);
     } else {
-      this.spotify.getPlaylists().subscribe(userPlaylistData => this.userPlaylistData = userPlaylistData);
+
+      this.spotify.getPlaylists().subscribe(userPlaylistData => {
+        this.userPlaylistData = userPlaylistData;
+        if (this.userPlaylistData.length === 0){
+          this.cookie.delete('access_token');
+          this.cookie.delete('refresh_token');
+          this.router.navigate(['']);
+        }
+      });
     }
   }
 
   search(term: string): void {
     this.spotify.searchTracks(term).subscribe( searchedTracks => {
       this.searchedTracks = searchedTracks;
-
       console.log(this.searchedTracks);
     });
   }

@@ -60,13 +60,12 @@ export class SpotifyService {
       }),
       params: bodyParams
     };
-    // return this.http.request('POST', this.url + 'api/token', httpOptions);
+
     return this.http.post(this.url + 'api/token', '', httpOptions)
       .pipe(
       map((res: Response) => {
         return res;
       }),
-      tap(_ => this.log('??')),
       catchError(this.handleError<any[]>('tokens', []))
     );
 
@@ -81,6 +80,7 @@ export class SpotifyService {
       .pipe(
         map((res: Response) => {
           return res;
+
         }),
         catchError(this.handleError<any[]>('tokens', []))
       );

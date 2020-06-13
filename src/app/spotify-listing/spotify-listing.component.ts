@@ -3,6 +3,7 @@ import { CookieService} from 'ngx-cookie-service';
 import {Observable} from 'rxjs';
 import {Router, ActivatedRoute} from '@angular/router';
 import { SpotifyService} from '../spotify.service';
+import {empty} from 'rxjs/internal/Observer';
 
 @Component({
   selector: 'app-spotify-listing',
@@ -17,10 +18,19 @@ export class SpotifyListingComponent implements OnInit {
 
   ngOnInit(): void {
     this.accessToken = this.cookie.get('access_token');
-    if (!this.accessToken){
+
+    if (!this.accessToken) {
       this.router.navigate(['']);
-    } else {
-      this.spotify.me().subscribe(data => { this.data = data; this.cookie.set('user_id', data['id']); });
+    }  else {
+      this.spotify.me().subscribe(data => {
+        this.data = data;
+        if (this.data.length === 0){
+          this.cookie.delete('access_token');
+          this.cookie.delete('refresh_token');
+          this.router.navigate(['']);
+        }
+        this.cookie.set('user_id', data['id']);
+      });
     }
 
   }
