@@ -3,3 +3,13 @@
   flex-direction: row;
   justify-content: space-around;
 }
+
+.compare-container{
+  display: flex;
+  justify-content: space-around;
+  flex-direction: row;
+}
+
+.compare-container p {
+  padding-right: 10px;
+}

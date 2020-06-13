@@ -14,6 +14,7 @@ import {Router} from '@angular/router';
 })
 export class ShowPlaylistsComponent implements OnInit {
   private userPlaylistData: any | Response;
+  private percentage: number;
   constructor(private location: Location, private spotify: SpotifyService, private cookie: CookieService, private router: Router) { }
 
   private otherUsersPlaylists = [];
@@ -64,11 +65,13 @@ export class ShowPlaylistsComponent implements OnInit {
       this.userPlaylistTracks = userPlaylistTracks;
 
       if (this.userPlaylistTracks.next){
-        this.spotify.getPlaylist(userPlaylistId, this.userPlaylistTracks.offset).subscribe(nextTracks => {
-          console.log(this.userPlaylistTracks);
-          this.userPlaylistTracks.items.push(nextTracks.items);
-          this.userPlaylistTracks.next = nextTracks.next;
-        });
+        const pages = Math.ceil(this.userPlaylistTracks['total']/100);
+        for (let i = 1; i < pages; i++) {
+          this.spotify.getPlaylist(userPlaylistId,i*100).subscribe(nextTracks => {
+            Array.prototype.push.apply(this.userPlaylistTracks.items, nextTracks.items);
+            this.userPlaylistTracks.next = nextTracks.next;
+          });
+        }
       }
 
       this.spotify.getPlaylist(otherUserPlaylistId, 0).subscribe(otherUserPlaylistTracks => {
@@ -79,18 +82,36 @@ export class ShowPlaylistsComponent implements OnInit {
 
           for (let i = 1; i < pages; i++){
             this.spotify.getPlaylist(otherUserPlaylistId, i*100).subscribe(nextOtherTracks => {
-              this.otherUserPlaylistTracks.items.push(nextOtherTracks.items);
+
+              Array.prototype.push.apply(this.otherUserPlaylistTracks.items, nextOtherTracks.items);
+
               this.otherUserPlaylistTracks.next = nextOtherTracks.next;
-              console.log(this.otherUserPlaylistTracks);
             });
           }
         }
 
-        console.log(this.userPlaylistTracks);
-        console.log(this.otherUserPlaylistTracks);
-        console.log(this.getPercentage(this.userPlaylistTracks.items,this.otherUserPlaylistTracks.items));
+        const numberOfItems = this.operation(this.userPlaylistTracks.items, this.otherUserPlaylistTracks.items, true);
+        const playlistLength = this.userPlaylistTracks.items.length;
+        this.percentage = numberOfItems.length*100/playlistLength;
+
       });
     });
+  }
+
+  private operation(list1, list2, isUnion) {
+    let result = [];
+
+    for (let i = 0; i < list1.length; i++) {
+      let item1 = list1[i];
+      let found = false;
+      for (let j = 0; j < list2.length && !found; j++){
+        found = item1.track.id === list2[j].track.id;
+      }
+      if (found === !!isUnion) { // isUnion is coerced to boolean
+        result.push(item1);
+      }
+    }
+    return result;
   }
 
   private getPercentage(masterArray, compareToArray){

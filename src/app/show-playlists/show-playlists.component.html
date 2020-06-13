@@ -9,6 +9,21 @@
 
   </div>
 
+  <div class="selectedPlaylist">
+    <div class="compare-container">
+      <p id="{{selectedPlaylist.id}}">{{selectedPlaylist.name}}</p>
+      <p>compares to</p>
+      <p id="{{selectedOtherPlaylist.id}}">{{selectedOtherPlaylist.name}}</p>
+    </div>
+
+
+    <button (click)="comparePlaylists(selectedPlaylist.id,selectedOtherPlaylist.id)" class="btn btn-success">Compare</button>
+
+    <p *ngIf="percentage">Your selected playlist compares for %{{percentage}} to the other user's playlist.</p>
+
+
+  </div>
+
   <div *ngIf="userPlaylistData" class="other-user-container">
     <h3>Get users playlist:</h3>
     <div class="search-input form-group row">
@@ -24,12 +39,5 @@
   </div>
 </div>
 
-<div class="selectedPlaylist">
-  <p id="{{selectedPlaylist.id}}">{{selectedPlaylist.name}}</p>
-  <p>compares to</p>
-  <p id="{{selectedOtherPlaylist.id}}">{{selectedOtherPlaylist.name}}</p>
 
-  <button (click)="comparePlaylists(selectedPlaylist.id,selectedOtherPlaylist.id)" class="btn btn-success">Compare</button>
-
-</div>
 <button class="btn btn-success" (click)="goBack()">go back</button>
