@@ -4,6 +4,8 @@ import { SpotifyService} from '../spotify.service';
 import { Observable, Subject } from 'rxjs';
 import { DomSanitizer, SafeUrl } from '@angular/platform-browser';
 import {debounceTime, distinctUntilChanged, switchMap} from 'rxjs/operators';
+import {CookieService} from 'ngx-cookie-service';
+import {Router} from '@angular/router';
 
 @Pipe({ name: 'safe' })
 export class SafePipe implements PipeTransform {
@@ -19,17 +21,27 @@ export class SafePipe implements PipeTransform {
   styleUrls: ['./create-playlist.component.css']
 })
 export class CreatePlaylistComponent implements OnInit {
-  private searchTerms = new Subject<string>();
+
   private searchedTracks = [];
   private selectedTracks = [];
   private playlistName = '';
   private playlistDescription = '';
   private trackEmbed = '';
+  accessToken = '';
+  private userPlaylistData: any | Response;
   constructor(
     private location: Location,
-    private spotify: SpotifyService) { }
+    private spotify: SpotifyService,
+    private cookie: CookieService,
+    private router: Router) { }
 
   ngOnInit(): void {
+    this.accessToken = this.cookie.get('access_token');
+    if (!this.accessToken){
+      this.router.navigate(['']);
+    } else {
+      this.spotify.getPlaylists().subscribe(userPlaylistData => this.userPlaylistData = userPlaylistData);
+    }
   }
 
   search(term: string): void {
@@ -49,7 +61,7 @@ export class CreatePlaylistComponent implements OnInit {
   }
 
   save(playlistName, tracks, playlistDescription){
-    this.spotify.createPlaylist(playlistName,tracks, playlistDescription).subscribe();
+    this.spotify.createPlaylist(playlistName, tracks, playlistDescription).subscribe();
   }
 
   showPlayer(trackUri)

@@ -1,24 +1,35 @@
-<div class="userPlaylists">
+<div class="playlists">
   <div *ngIf="userPlaylistData" class="this-user-container">
     <h3>Select your playlist:</h3>
     <ul class="list-group">
-      <li *ngFor="let playlist of userPlaylistData.items" class="list-group-item d-flex justify-content-between align-items-center" (click)="selectPlaylist(playlist)">{{playlist.name}}</li>
+      <li *ngFor="let playlist of userPlaylistData.items"
+          class="list-group-item d-flex justify-content-between align-items-center"
+          (click)="selectPlaylist(playlist)">{{playlist.name}}</li>
     </ul>
 
   </div>
 
-  <h3>Get users playlist:</h3>
-  <div class="search-input form-group row">
-    <input #searchBox id="search-box" (input)="search(searchBox.value)" class="form-control">
+  <div *ngIf="userPlaylistData" class="other-user-container">
+    <h3>Get users playlist:</h3>
+    <div class="search-input form-group row">
+      <input #searchBox id="search-box" (input)="search(searchBox.value)" class="form-control">
+    </div>
+
+    <ul class="list-group">
+      <li *ngFor="let otherPlaylist of otherUsersPlaylists.items"
+          class="list-group-item d-flex justify-content-between align-items-center"
+          (click)="selectOtherPlaylist(otherPlaylist)">{{otherPlaylist.name}}</li>
+
+    </ul>
   </div>
-
-  <ul class="list-group">
-    <li *ngFor="let otherPlaylist of otherUsersPlaylists.items" class="list-group-item d-flex justify-content-between align-items-center" (click)="selectOtherPlaylist(otherPlaylist)">{{otherPlaylist.name}}</li>
-
-  </ul>
 </div>
 
 <div class="selectedPlaylist">
-  <p>{{selectedPlaylist.name}}</p>
+  <p id="{{selectedPlaylist.id}}">{{selectedPlaylist.name}}</p>
+  <p>compares to</p>
+  <p id="{{selectedOtherPlaylist.id}}">{{selectedOtherPlaylist.name}}</p>
+
+  <button (click)="comparePlaylists(selectedPlaylist.id,selectedOtherPlaylist.id)" class="btn btn-success">Compare</button>
+
 </div>
 <button class="btn btn-success" (click)="goBack()">go back</button>

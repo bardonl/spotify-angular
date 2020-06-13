@@ -23,8 +23,8 @@ export class SpotifyService {
 
   private url = 'https://accounts.spotify.com/';
   private apiUrl = 'https://api.spotify.com/';
-  private clientId = '5f4860bbf51540668c3e1f989fe9af9c';
-  private clientSecret = '6a69262dc2464b6c8c0300db6b3c0a3d';
+  private clientId = 'clientId';
+  private clientSecret = 'clientSecret';
   private scopes = 'user-read-private user-read-email playlist-modify-public playlist-modify-private';
   private log(message: string) {
     this.messageService.add(`Spotify Service: ${message}`);
@@ -42,8 +42,6 @@ export class SpotifyService {
       '&redirect_uri=' + redirectUrl).pipe(
       tap(_ => this.log(this.route.snapshot.paramMap.get('code')))
     );
-
-    console.log(response);
   }
 
 
@@ -110,7 +108,6 @@ export class SpotifyService {
     return this.http.get(this.apiUrl + 'v1/search?q=' + encodeURI(params) + '&type=track', { headers })
       .pipe(
         map((res: Response) => {
-
           return res;
         }),
         catchError(this.handleError<any[]>('tokens', []))
@@ -132,7 +129,6 @@ export class SpotifyService {
       .pipe(
         map((res: Response) => {
           this.addTracksToPlaylist(res, tracks).subscribe();
-          console.log(res);
           return res;
         }),
         catchError(this.handleError<any[]>('tokens', []))
@@ -171,7 +167,28 @@ export class SpotifyService {
     return this.http.get(this.apiUrl + 'v1/users/'+userId+'/playlists', { headers })
       .pipe(
         map((res: Response) => {
-          console.log(res);
+          return res;
+        }),
+        catchError(this.handleError<any[]>('tokens', []))
+      );
+  }
+
+  getPlaylist(playlistId, offset) {
+    let headers: HttpHeaders = new HttpHeaders();
+    headers = headers.append('Content-Type', 'application/json');
+    headers = headers.append('Authorization', 'Bearer ' + this.cookie.get('access_token'));
+
+    let endPart = '/tracks';
+
+    if (offset){
+      endPart = endPart + '?offset=' + offset;
+    }
+
+    console.log(endPart);
+
+    return this.http.get(this.apiUrl + 'v1/playlists/' + playlistId + endPart, { headers })
+      .pipe(
+        map((res: Response) => {
           return res;
         }),
         catchError(this.handleError<any[]>('tokens', []))

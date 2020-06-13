@@ -24,7 +24,11 @@ export class LoginComponent implements OnInit {
       const code = params['code'];
       if (code && !this.cookieService.get('access_token')) {
         this.spotify.authorize(code).subscribe(data => {
-          this.cookieService.set('access_token', data['access_token'], data['expires_in']);
+          const expire = new Date();
+          const time = Date.now() + ((3600 * 1000) * 3);
+          expire.setTime(time);
+
+          this.cookieService.set('access_token', data['access_token'], expire);
 
           this.cookieService.set('refresh_token', data['refresh_token']);
           if (this.cookieService.get('access_token')){

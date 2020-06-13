@@ -10,7 +10,6 @@ import { RouterModule, Routes } from '@angular/router';
 import { SpotifyListingComponent } from './spotify-listing/spotify-listing.component';
 import { CreatePlaylistComponent, SafePipe  } from './create-playlist/create-playlist.component';
 import { ShowPlaylistsComponent } from './show-playlists/show-playlists.component';
-import { PlayerComponent } from './player/player.component';
 
 @NgModule({
   declarations: [
@@ -20,8 +19,7 @@ import { PlayerComponent } from './player/player.component';
     SpotifyListingComponent,
     CreatePlaylistComponent,
     ShowPlaylistsComponent,
-    SafePipe,
-    PlayerComponent
+    SafePipe
   ],
   imports: [
     HttpClientModule,
