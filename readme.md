@@ -23,7 +23,7 @@ How to use?
 	<li>When you are logged in you will be redicted to a screen with 2 cards where you can select what your next action will be:</li>
 	<ul>
 	<li>Create a new playlist</li>
-	<li>Compare your playlists to other users playlist (this will show you how much of your playlist compares to others)</li>
+	<li>Compare your playlists to other users playlist (this will show you how much of your playlist compares to others). You need to use the username before you can select a playlist you want to compare to.</li>
 	</ul>
 
 </ul>
