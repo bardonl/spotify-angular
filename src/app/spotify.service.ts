@@ -1,13 +1,11 @@
 import {Injectable} from '@angular/core';
 import {HttpClient, HttpHeaders} from '@angular/common/http';
-// import { Headers } from '@angular/http';
 import {MessageService} from './message.service';
 import {catchError, map, tap} from 'rxjs/operators';
 import {ActivatedRoute} from '@angular/router';
-import {Location} from '@angular/common';
-import {toBase64String} from '@angular/compiler/src/output/source_map';
 import {Observable, of} from 'rxjs';
 import { CookieService} from 'ngx-cookie-service';
+import { environment } from './../environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -21,25 +19,18 @@ export class SpotifyService {
 
   }
 
-  private url = 'https://accounts.spotify.com/';
-  private apiUrl = 'https://api.spotify.com/';
-  private clientId = 'clientId';
-  private clientSecret = 'clientSecret';
-  private scopes = 'user-read-private user-read-email playlist-modify-public playlist-modify-private';
   private log(message: string) {
     this.messageService.add(`Spotify Service: ${message}`);
 
   }
 
   login() {
-
-    const redirectUrl = 'http://localhost:4200/callback';
     this.log('login');
 
-    const response = this.http.get(
-      this.url + '/authorize?response_type=code&client_id=' + this.clientId +
-      '&scope=' + encodeURI(this.scopes) +
-      '&redirect_uri=' + redirectUrl).pipe(
+    return this.http.get(
+      environment.url + 'authorize?response_type=code&client_id=' + environment.clientId +
+      '&scope=' + encodeURI(environment.scopes) +
+      '&redirect_uri=' + environment.redirectUrl).pipe(
       tap(_ => this.log(this.route.snapshot.paramMap.get('code')))
     );
   }
@@ -50,18 +41,18 @@ export class SpotifyService {
     const bodyParams = {
       grant_type: 'authorization_code',
       code: code,
-      redirect_uri: 'http://localhost:4200'
+      redirect_uri: environment.redirectUrl
     };
 
     const httpOptions = {
       headers: new HttpHeaders({
         'Content-Type': 'application/x-www-form-urlencoded',
-        Authorization: 'Basic ' + btoa(this.clientId + ':' + this.clientSecret)
+        Authorization: 'Basic ' + btoa(environment.clientId + ':' + environment.clientSecret)
       }),
       params: bodyParams
     };
 
-    return this.http.post(this.url + 'api/token', '', httpOptions)
+    return this.http.post(environment.url + 'api/token', '', httpOptions)
       .pipe(
       map((res: Response) => {
         return res;
@@ -76,7 +67,7 @@ export class SpotifyService {
     headers = headers.append('Content-Type', 'application/json');
     headers = headers.append('Authorization', 'Bearer ' + this.cookie.get('access_token'));
 
-    return this.http.get(this.apiUrl + 'v1/me', { headers })
+    return this.http.get(environment.apiUrl + 'v1/me', { headers })
       .pipe(
         map((res: Response) => {
           return res;
@@ -91,7 +82,7 @@ export class SpotifyService {
     headers = headers.append('Content-Type', 'application/json');
     headers = headers.append('Authorization', 'Bearer ' + this.cookie.get('access_token'));
 
-    return this.http.get(this.apiUrl + 'v1/me/playlists', { headers })
+    return this.http.get(environment.apiUrl + 'v1/me/playlists', { headers })
       .pipe(
         map((res: Response) => {
           return res;
@@ -105,7 +96,7 @@ export class SpotifyService {
     headers = headers.append('Content-Type', 'application/json');
     headers = headers.append('Authorization', 'Bearer ' + this.cookie.get('access_token'));
 
-    return this.http.get(this.apiUrl + 'v1/search?q=' + encodeURI(params) + '&type=track', { headers })
+    return this.http.get(environment.apiUrl + 'v1/search?q=' + encodeURI(params) + '&type=track', { headers })
       .pipe(
         map((res: Response) => {
           return res;
@@ -125,7 +116,7 @@ export class SpotifyService {
       'public': 'false'
     };
 
-    return this.http.post(this.apiUrl + 'v1/users/' + this.cookie.get('user_id') + '/playlists', data, { headers })
+    return this.http.post(environment.apiUrl + 'v1/users/' + this.cookie.get('user_id') + '/playlists', data, { headers })
       .pipe(
         map((res: Response) => {
           this.addTracksToPlaylist(res, tracks).subscribe();
@@ -150,7 +141,7 @@ export class SpotifyService {
     }
     uri = uri + lastItem['uri'];
 
-    return this.http.post(this.apiUrl + 'v1/playlists/' + playlist['id'] + '/tracks?uris=' + encodeURI(uri), '', { headers })
+    return this.http.post(environment.apiUrl + 'v1/playlists/' + playlist['id'] + '/tracks?uris=' + encodeURI(uri), '', { headers })
       .pipe(
         map((res: Response) => {
           return res;
@@ -164,7 +155,7 @@ export class SpotifyService {
     headers = headers.append('Content-Type', 'application/json');
     headers = headers.append('Authorization', 'Bearer ' + this.cookie.get('access_token'));
 
-    return this.http.get(this.apiUrl + 'v1/users/'+userId+'/playlists', { headers })
+    return this.http.get(environment.apiUrl + 'v1/users/'+userId+'/playlists', { headers })
       .pipe(
         map((res: Response) => {
           return res;
@@ -186,7 +177,7 @@ export class SpotifyService {
 
     console.log(endPart);
 
-    return this.http.get(this.apiUrl + 'v1/playlists/' + playlistId + endPart, { headers })
+    return this.http.get(environment.apiUrl + 'v1/playlists/' + playlistId + endPart, { headers })
       .pipe(
         map((res: Response) => {
           return res;

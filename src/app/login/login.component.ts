@@ -1,11 +1,10 @@
 import {Component, OnInit} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
 import {Location} from '@angular/common';
 import {MessageService} from '../message.service';
 import {Router, ActivatedRoute} from '@angular/router';
 import {SpotifyService} from '../spotify.service';
 import {CookieService} from 'ngx-cookie-service';
-import {Observable} from 'rxjs';
+import {environment} from '../../environments/environment';
 
 @Component({
   selector: 'app-login',
@@ -52,9 +51,6 @@ export class LoginComponent implements OnInit {
   }
 
   login(): void {
-    const clientId = '5f4860bbf51540668c3e1f989fe9af9c';
-    const clientSecret = '6a69262dc2464b6c8c0300db6b3c0a3d';
-    const redirectUrl = 'http://localhost:4200';
 
     this.log('login');
 
@@ -62,9 +58,9 @@ export class LoginComponent implements OnInit {
 
     if (!accCookie) {
       window.location.href =
-        this.url + 'authorize?response_type=code&client_id=' + clientId +
+        environment.url + 'authorize?response_type=code&client_id=' + environment.clientId +
         '&scope=' + encodeURI(this.scopes) +
-        '&redirect_uri=' + redirectUrl;
+        '&redirect_uri=' + environment.redirectUrl;
     } else {
       this.router.navigate(['/spotify-listing']);
     }
