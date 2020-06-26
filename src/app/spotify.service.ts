@@ -24,18 +24,6 @@ export class SpotifyService {
 
   }
 
-  login() {
-    this.log('login');
-
-    return this.http.get(
-      environment.url + 'authorize?response_type=code&client_id=' + environment.clientId +
-      '&scope=' + encodeURI(environment.scopes) +
-      '&redirect_uri=' + environment.redirectUrl).pipe(
-      tap(_ => this.log(this.route.snapshot.paramMap.get('code')))
-    );
-  }
-
-
   authorize(code) {
 
     const bodyParams = {
