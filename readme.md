@@ -13,6 +13,7 @@ How to install?
     <li>Open your command line in the folder where you pulled the repo to</li>
     <li>run : <code>npm install</code></li>
     <li>Once all the dependencies are installed create a project within the Spotify Developer enviroment to get your client ID and client Secret</li>
+    <li>Use http://localhost:4200 as website url and callback url</li>
     <li>Place your client Id and secret in spotify.service.ts</li>
 <li>run: <code>ng serve --open</code></li>
 <li>Your project will open on localhost:4200. If Angular gives an error Cannot get / please edit a .ts file, just remove or add an empty line and rerun the before mentioned command</li>
