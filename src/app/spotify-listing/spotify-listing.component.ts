@@ -1,9 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { CookieService} from 'ngx-cookie-service';
-import {Observable} from 'rxjs';
-import {Router, ActivatedRoute} from '@angular/router';
+import {Router} from '@angular/router';
 import { SpotifyService} from '../spotify.service';
-import {empty} from 'rxjs/internal/Observer';
 
 @Component({
   selector: 'app-spotify-listing',
@@ -13,7 +11,7 @@ import {empty} from 'rxjs/internal/Observer';
 export class SpotifyListingComponent implements OnInit {
 
   accessToken = '';
-  data = [];
+  data;
   constructor(private cookie: CookieService, private router: Router, private spotify: SpotifyService) { }
 
   ngOnInit(): void {

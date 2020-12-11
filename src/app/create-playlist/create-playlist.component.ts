@@ -22,11 +22,11 @@ export class SafePipe implements PipeTransform {
 })
 export class CreatePlaylistComponent implements OnInit {
 
-  private searchedTracks = [];
-  private selectedTracks = [];
-  private playlistName = '';
-  private playlistDescription = '';
-  private trackEmbed = '';
+  public searchedTracks;
+  public selectedTracks = [];
+  public playlistName = '';
+  public playlistDescription = '';
+  public trackEmbed = '';
   accessToken = '';
   private userPlaylistData: any | Response;
   constructor(

@@ -13,15 +13,15 @@ import {Router} from '@angular/router';
   styleUrls: ['./show-playlists.component.css']
 })
 export class ShowPlaylistsComponent implements OnInit {
-  private userPlaylistData: any | Response;
-  private percentage: number;
+  public userPlaylistData: any | Response;
+  public percentage: number;
   constructor(private location: Location, private spotify: SpotifyService, private cookie: CookieService, private router: Router) { }
 
-  private otherUsersPlaylists = [];
-  private selectedPlaylist = [];
-  private selectedOtherPlaylist = [];
-  private userPlaylistTracks = [];
-  private otherUserPlaylistTracks = [];
+  public otherUsersPlaylists;
+  public  selectedPlaylist ;
+  public selectedOtherPlaylist;
+  public userPlaylistTracks;
+  private otherUserPlaylistTracks;
   accessToken = '';
 
   ngOnInit(): void {

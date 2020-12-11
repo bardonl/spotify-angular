@@ -4,8 +4,8 @@
 
 export const environment = {
   production: false,
-  clientId : '',
-  clientSecret: '',
+  clientId : 'a6cbebc82fb84908ae3e4cb470a968ee',
+  clientSecret: 'e34742ab59a643c1aa36df49d6f7b02f',
   url: 'https://accounts.spotify.com/',
   redirectUrl: 'http://localhost:4200',
   apiUrl: 'https://api.spotify.com/',

@@ -27,10 +27,10 @@ import { ShowPlaylistsComponent } from './show-playlists/show-playlists.componen
     AppRoutingModule,
     FormsModule,
     RouterModule.forRoot([{
-      path: '',
-      component: AppComponent
+        path: '',
+        component: AppComponent
     },
-    ])
+], { relativeLinkResolution: 'legacy' })
   ],
   providers: [],
   bootstrap: [AppComponent]
